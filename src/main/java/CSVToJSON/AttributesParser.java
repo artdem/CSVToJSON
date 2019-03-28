@@ -1,0 +1,82 @@
+package CSVToJSON;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AttributesParser {
+
+    private static final String CSV_FILE_PATH = "attributes.csv";
+
+    public List<Attributes> attributesParser() throws IOException {
+
+        List<Attributes> attributes = new ArrayList<Attributes>();
+
+        try (
+                Reader reader = Files.newBufferedReader(Paths.get(CSV_FILE_PATH));
+                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
+                        .withDelimiter(';')
+                        .withFirstRecordAsHeader()
+                        .withIgnoreHeaderCase()
+                        .withTrim())
+
+        ){
+            for (CSVRecord csvRecord : csvParser) {
+                Attributes attributesObject = new Attributes();
+                List<Labels> labels = new ArrayList<>();
+                Labels labelsObject = new Labels();
+                String code = csvRecord.get("code");
+                String label_it_IT = csvRecord.get("attribute-it_IT");
+                String label_en_GB = csvRecord.get("attribute-en_GB");
+                String label_en_IE = csvRecord.get("attribute-en_IE");
+                String label_pl_PL = csvRecord.get("attribute-pl_PL");
+                String label_nl_NL = csvRecord.get("attribute-nl_NL");
+                String label_nl_BE = csvRecord.get("attribute-nl_BE");
+                String label_nb_NO = csvRecord.get("attribute-nb_NO");
+                String label_fi_FI = csvRecord.get("attribute-fi_FI");
+                String label_en_US = csvRecord.get("attribute-en_US");
+                String label_es_ES = csvRecord.get("attribute-es_ES");
+                String label_de_DE = csvRecord.get("attribute-de_DE");
+                String label_de_CH = csvRecord.get("attribute-de_CH");
+                String label_de_AT = csvRecord.get("attribute-de_AT");
+                String label_da_DK = csvRecord.get("attribute-da_DK");
+                String label_fr_FR = csvRecord.get("attribute-fr_FR");
+                String label_sv_SE = csvRecord.get("attribute-sv_SE");
+                String label_cs_CZ = csvRecord.get("attribute-cs_CZ");
+
+                attributesObject.setCode(code);
+                labelsObject.setLabel_it_IT(label_it_IT);
+                labelsObject.setLabel_en_GB(label_en_GB);
+                labelsObject.setLabel_en_IE(label_en_IE);
+                labelsObject.setLabel_pl_PL(label_pl_PL);
+                labelsObject.setLabel_nl_NL(label_nl_NL);
+                labelsObject.setLabel_nl_BE(label_nl_BE);
+                labelsObject.setLabel_nb_NO(label_nb_NO);
+                labelsObject.setLabel_fi_FI(label_fi_FI);
+                labelsObject.setLabel_en_US(label_en_US);
+                labelsObject.setLabel_es_ES(label_es_ES);
+                labelsObject.setLabel_de_DE(label_de_DE);
+                labelsObject.setLabel_de_CH(label_de_CH);
+                labelsObject.setLabel_de_AT(label_de_AT);
+                labelsObject.setLabel_da_DK(label_da_DK);
+                labelsObject.setLabel_fr_FR(label_fr_FR);
+                labelsObject.setLabel_sv_SE(label_sv_SE);
+                labelsObject.setLabel_cs_CZ(label_cs_CZ);
+                labels.add(labelsObject);
+                attributesObject.setLabels(labels);
+                attributes.add(attributesObject);
+            }
+        }
+        return attributes;
+    }
+
+}
